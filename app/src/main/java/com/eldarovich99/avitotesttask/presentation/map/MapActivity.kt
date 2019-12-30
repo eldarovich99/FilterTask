@@ -1,16 +1,28 @@
-package com.eldarovich99.avitotesttask.presentation
+package com.eldarovich99.avitotesttask.presentation.map
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.eldarovich99.avitotesttask.R
 import com.eldarovich99.avitotesttask.domain.entity.Pin
+import com.eldarovich99.avitotesttask.domain.entity.Service
+import com.eldarovich99.avitotesttask.presentation.filter.FilterActivity
 import com.eldarovich99.avitotesttask.presentation.ui.ShowPinsAtMapView
 import com.yandex.mapkit.MapKitFactory
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MapActivity : AppCompatActivity(), MapActivityView {
-    private val presenter by lazy { MapPresenter(this) }
-    private var serviceNames : List<String>?=null
+    private val presenter by lazy {
+        MapPresenter(
+            this
+        )
+    }
+    private var services : ArrayList<Service>?=null
+
+    companion object{
+        const val FILTER_INTENT = 1337
+        const val SERVICES = "services"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,10 +30,15 @@ class MapActivity : AppCompatActivity(), MapActivityView {
         MapKitFactory.initialize(this)
         setContentView(R.layout.activity_main)
         presenter.setData()
+        filterButton.setOnClickListener {
+            val intent = Intent(this, FilterActivity::class.java)
+            intent.putParcelableArrayListExtra(SERVICES, services)
+            startActivityForResult(intent, FILTER_INTENT)
+        }
     }
 
-    override fun setServices(services: List<String>) {
-        serviceNames = services
+    override fun setServiceNames(services: ArrayList<Service>) {
+        this.services = services
     }
 
     override fun showPoints(points: List<Pin>) {

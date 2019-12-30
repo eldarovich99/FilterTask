@@ -15,7 +15,6 @@ class ShowPinsAtMapView(context: Context, attrSet : AttributeSet) : MapView(cont
     var imageProviderA : ImageProvider
     var imageProviderB : ImageProvider
     var imageProviderC : ImageProvider
-    var imageProviderD : ImageProvider
     var imageProviderUnknown : ImageProvider
     companion object{
         const val API_KEY = "23739aa3-5d16-4949-8124-ff1d9c46f7c8"
@@ -48,7 +47,6 @@ class ShowPinsAtMapView(context: Context, attrSet : AttributeSet) : MapView(cont
         imageProviderA = ImageProvider.fromResource(context, R.drawable.placemark_a)
         imageProviderB = ImageProvider.fromResource(context, R.drawable.placemark_b)
         imageProviderC = ImageProvider.fromResource(context, R.drawable.placemark_c)
-        imageProviderD = ImageProvider.fromResource(context, R.drawable.placemark_d)
         imageProviderUnknown = ImageProvider.fromResource(context, R.drawable.ic_place_black_24dp)
     }
 
@@ -67,7 +65,6 @@ class ShowPinsAtMapView(context: Context, attrSet : AttributeSet) : MapView(cont
                 "a" -> it.addPlacemark(point, imageProviderA)
                 "b" -> it.addPlacemark(point, imageProviderB)
                 "c" -> it.addPlacemark(point, imageProviderC)
-                "d" -> it.addPlacemark(point, imageProviderD)
                 else -> it.addPlacemark(point, imageProviderUnknown)
             }
         }
