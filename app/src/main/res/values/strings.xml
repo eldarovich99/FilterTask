@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AvitoTestTask</string>
+    <string name="service_template">Сервис %1s</string>
 </resources>

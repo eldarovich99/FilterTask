@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.MapActivity">
+    tools:context=".presentation.map.MapActivity">
 
     <com.eldarovich99.avitotesttask.presentation.ui.ShowPinsAtMapView
         android:id="@+id/mapView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/filterButton"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_marginBottom="24dp"
