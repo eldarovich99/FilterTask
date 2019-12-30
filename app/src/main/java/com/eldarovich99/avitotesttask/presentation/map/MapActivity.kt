@@ -4,19 +4,21 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.eldarovich99.avitotesttask.R
+import com.eldarovich99.avitotesttask.di.modules.MapActivityModule
+import com.eldarovich99.avitotesttask.di.scopes.ApplicationScope
+import com.eldarovich99.avitotesttask.di.scopes.MapActivityScope
 import com.eldarovich99.avitotesttask.domain.entity.Pin
 import com.eldarovich99.avitotesttask.domain.entity.Service
 import com.eldarovich99.avitotesttask.presentation.filter.FilterActivity
 import com.eldarovich99.avitotesttask.presentation.ui.ShowPinsAtMapView
 import com.yandex.mapkit.MapKitFactory
 import kotlinx.android.synthetic.main.activity_main.*
+import toothpick.ktp.KTP
+import javax.inject.Inject
 
 class MapActivity : AppCompatActivity(), MapActivityView {
-    private val presenter by lazy {
-        MapPresenter(
-            this
-        )
-    }
+    @Inject
+    lateinit var presenter : MapPresenter
     private var services : ArrayList<Service>?=null
 
     companion object{
@@ -26,8 +28,14 @@ class MapActivity : AppCompatActivity(), MapActivityView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         MapKitFactory.setApiKey(ShowPinsAtMapView.API_KEY)
         MapKitFactory.initialize(this)
+
+        KTP.openScope(ApplicationScope::class.java).openSubScope(MapActivityScope::class.java).installModules(
+            MapActivityModule(this)
+        ).inject(this)
+
         setContentView(R.layout.activity_main)
         presenter.setData()
         filterButton.setOnClickListener {

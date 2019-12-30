@@ -7,8 +7,6 @@ import com.eldarovich99.avitotesttask.domain.entity.Service
 import kotlinx.android.synthetic.main.activity_filter.*
 
 class FilterActivity : AppCompatActivity() {
-   // @Inject
-   // lateinit var adapter: ServicesRecyclerViewAdapter
     companion object{
         const val SERVICES = "services"
     }

@@ -12,16 +12,9 @@ import com.eldarovich99.avitotesttask.domain.entity.Service
 import java.util.*
 import javax.inject.Inject
 
-//@InjectConstructor
 class ServicesRecyclerViewAdapter(var items: ArrayList<Service>) : RecyclerView.Adapter<ServicesRecyclerViewAdapter.ServicesViewHolder?>() {
     @Inject
     lateinit var context: Application
- // private var items = emptyList<Service>()
-
- // fun setServices(items: ArrayList<Service>){
- //     this.items = items
- //     notifyDataSetChanged()
- // }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ServicesViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.service_item, parent, false)

@@ -1,4 +1,4 @@
-package com.eldarovich99.avitotesttask.di
+package com.eldarovich99.avitotesttask.di.scopes
 
 @Target(AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.RUNTIME)

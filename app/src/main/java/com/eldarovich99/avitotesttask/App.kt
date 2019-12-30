@@ -1,7 +1,7 @@
 package com.eldarovich99.avitotesttask
 
 import android.app.Application
-import com.eldarovich99.avitotesttask.di.ApplicationScope
+import com.eldarovich99.avitotesttask.di.scopes.ApplicationScope
 import toothpick.Scope
 import toothpick.ktp.KTP
 import toothpick.ktp.binding.bind

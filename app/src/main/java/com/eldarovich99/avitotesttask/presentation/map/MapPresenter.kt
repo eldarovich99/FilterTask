@@ -7,9 +7,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class MapPresenter(var view: MapActivityView?) {
-    val interactor by lazy { PinInteractor() }
+class MapPresenter @Inject constructor(var view: MapActivityView?, private val interactor: PinInteractor) {
 
     fun setData(){
         CoroutineScope(Dispatchers.IO).launch {
