@@ -7,6 +7,7 @@ import com.eldarovich99.avitotesttask.R
 import com.eldarovich99.avitotesttask.domain.entity.Pin
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.CameraPosition
+import com.yandex.mapkit.map.PlacemarkMapObject
 import com.yandex.mapkit.mapview.MapView
 import com.yandex.runtime.image.ImageProvider
 import kotlinx.android.synthetic.main.map_view.view.*
@@ -16,6 +17,7 @@ class ShowPinsAtMapView(context: Context, attrSet : AttributeSet) : MapView(cont
     var imageProviderB : ImageProvider
     var imageProviderC : ImageProvider
     var imageProviderUnknown : ImageProvider
+    var placemarks = mutableListOf<PlacemarkMapObject>()
     companion object{
         const val API_KEY = "23739aa3-5d16-4949-8124-ff1d9c46f7c8"
     }
@@ -27,21 +29,7 @@ class ShowPinsAtMapView(context: Context, attrSet : AttributeSet) : MapView(cont
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
     }
 
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        //yandexMap.onStart()
-        //MapKitFactory.getInstance().onStart()
-    }
-
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-       // yandexMap.onStop()
-       // MapKitFactory.getInstance().onStop()
-    }
-
     init {
-       // MapKitFactory.setApiKey(API_KEY)
-       // MapKitFactory.initialize(context)
         View.inflate(context, R.layout.map_view, this)
 
         imageProviderA = ImageProvider.fromResource(context, R.drawable.placemark_a)
@@ -62,18 +50,25 @@ class ShowPinsAtMapView(context: Context, attrSet : AttributeSet) : MapView(cont
     fun showPoint(point: Point, type: String){
         yandexMap.map.mapObjects.let {
             when (type){
-                "a" -> it.addPlacemark(point, imageProviderA)
-                "b" -> it.addPlacemark(point, imageProviderB)
-                "c" -> it.addPlacemark(point, imageProviderC)
-                else -> it.addPlacemark(point, imageProviderUnknown)
+                "a" -> {
+                    placemarks.add(it.addPlacemark(point, imageProviderA))
+                }
+                "b" -> {
+                    placemarks.add(it.addPlacemark(point, imageProviderB))
+                }
+                "c" -> {
+                    placemarks.add(it.addPlacemark(point, imageProviderC))
+                }
+                else -> {
+                    placemarks.add(it.addPlacemark(point, imageProviderUnknown))
+                }
             }
         }
     }
 
-    fun refreshPoints(point: Point, types: List<String>){
+    fun refreshPins(pins: List<Pin>){
         yandexMap.map.mapObjects.clear()
-        for (type in types){
-           // showPoint()
-        }
+        placemarks.clear()
+        showPins(pins)
     }
 }

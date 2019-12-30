@@ -1,5 +1,6 @@
 package com.eldarovich99.avitotesttask.presentation.map
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -19,10 +20,10 @@ import javax.inject.Inject
 class MapActivity : AppCompatActivity(), MapActivityView {
     @Inject
     lateinit var presenter : MapPresenter
-    private var services : ArrayList<Service>?=null
+    private var services : ArrayList<Service>?=null // must be moved to presenter to survive screen orientation changes
 
     companion object{
-        const val FILTER_INTENT = 1337
+        const val FILTER_REQUEST = 1337
         const val SERVICES = "services"
     }
 
@@ -41,16 +42,16 @@ class MapActivity : AppCompatActivity(), MapActivityView {
         filterButton.setOnClickListener {
             val intent = Intent(this, FilterActivity::class.java)
             intent.putParcelableArrayListExtra(SERVICES, services)
-            startActivityForResult(intent, FILTER_INTENT)
+            startActivityForResult(intent, FILTER_REQUEST)
         }
     }
 
-    override fun setServiceNames(services: ArrayList<Service>) {
+    override fun setServices(services: ArrayList<Service>) {
         this.services = services
     }
 
-    override fun showPoints(points: List<Pin>) {
-        mapView.showPins(points)
+    override fun showPins(pins: List<Pin>) {
+        mapView.showPins(pins)
     }
 
     override fun handleErrors() {
@@ -70,4 +71,21 @@ class MapActivity : AppCompatActivity(), MapActivityView {
         MapKitFactory.getInstance().onStop()
         super.onStop()
     }
+
+    override fun refreshPins(pins: List<Pin>) {
+        mapView.refreshPins(pins)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == FILTER_REQUEST && resultCode == Activity.RESULT_OK) {
+            val newServices: ArrayList<Service>? = data?.getParcelableArrayListExtra(SERVICES)
+            if (newServices?.equals(services) != true){
+                services = newServices
+                presenter.refreshPoints(services!!)
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data)
+    }
 }
+// TODO make the filter button unclickable while data is not loaded yet
+// TODO replace different placemarks with one placemark, add clustering and onTapListener (optionally)
