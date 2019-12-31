@@ -44,10 +44,12 @@ class MapActivity : AppCompatActivity(), MapActivityView {
             startActivityForResult(intent, FILTER_REQUEST)
         }
         presenter.onAttach(this)
+        filterButton.isEnabled = savedInstanceState != null
         presenter.setData(savedInstanceState == null)
     }
 
     override fun showPins(pins: List<Pin>) {
+        filterButton.isEnabled = true
         mapView.showPins(pins)
     }
 
