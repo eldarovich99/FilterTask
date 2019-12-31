@@ -5,6 +5,7 @@ import com.eldarovich99.avitotesttask.data.Result
 import com.eldarovich99.avitotesttask.domain.PinInteractor
 import com.eldarovich99.avitotesttask.domain.entity.Pin
 import com.eldarovich99.avitotesttask.domain.entity.Service
+import com.eldarovich99.avitotesttask.isEqual
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -52,14 +53,14 @@ class MapPresenter @Inject constructor(var view: MapActivityView?, private val i
     }
 
     fun refreshPoints(newServices: ArrayList<Service>) {
-        if (newServices != services){ // TODO fix comparison
+        if (!newServices.isEqual(services)){
             services = newServices
+            val filteredPins = mutableListOf<Pin>()
+            for (service in services!!){
+                if (service.isSelected)
+                    filteredPins.addAll(pins.filter { it.service == service.title })
+            }
+            view?.refreshPins(filteredPins)
         }
-        val filteredPins = mutableListOf<Pin>()
-        for (service in services!!){
-            if (service.isSelected)
-                filteredPins.addAll(pins.filter { it.service == service.title })
-        }
-        view?.refreshPins(filteredPins)
     }
 }

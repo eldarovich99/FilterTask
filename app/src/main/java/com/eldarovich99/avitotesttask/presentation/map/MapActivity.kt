@@ -34,7 +34,7 @@ class MapActivity : AppCompatActivity(), MapActivityView {
         MapKitFactory.initialize(this)
 
         KTP.openScope(ApplicationScope::class.java).openSubScope(MapActivityScope::class.java).installModules(
-            MapActivityModule(this)
+            MapActivityModule(this) 
         ).inject(this)
 
         setContentView(R.layout.activity_main)
