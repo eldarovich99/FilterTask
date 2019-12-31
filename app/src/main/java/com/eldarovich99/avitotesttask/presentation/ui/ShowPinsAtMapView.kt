@@ -40,10 +40,15 @@ class ShowPinsAtMapView(context: Context, attrSet : AttributeSet) : MapView(cont
 
     fun showPins(pins: List<Pin>){
         if (pins.isNotEmpty()){
-            yandexMap.map.move(CameraPosition(pins[0].toPoint(), 11.0f, 0.0f, 0.0f)) // TODO find center of placemarks
+            var latitude = 0.0
+            var longitude = 0.0
             for (pin in pins){
+                latitude+=pin.coordinates.lat
+                longitude+=pin.coordinates.lng
                 showPoint(pin.toPoint(), pin.service)
             }
+            val center = Point(latitude/pins.size, longitude/pins.size)
+            yandexMap.map.move(CameraPosition(center, 11.0f, 0.0f, 0.0f))
         }
     }
 
