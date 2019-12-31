@@ -50,25 +50,16 @@ class ShowPinsAtMapView(context: Context, attrSet : AttributeSet) : MapView(cont
     fun showPoint(point: Point, type: String){
         yandexMap.map.mapObjects.let {
             when (type){
-                "a" -> {
-                    placemarks.add(it.addPlacemark(point, imageProviderA))
-                }
-                "b" -> {
-                    placemarks.add(it.addPlacemark(point, imageProviderB))
-                }
-                "c" -> {
-                    placemarks.add(it.addPlacemark(point, imageProviderC))
-                }
-                else -> {
-                    placemarks.add(it.addPlacemark(point, imageProviderUnknown))
-                }
+                "a" -> it.addPlacemark(point, imageProviderA)
+                "b" -> it.addPlacemark(point, imageProviderB)
+                "c" -> it.addPlacemark(point, imageProviderC)
+                else -> it.addPlacemark(point, imageProviderUnknown)
             }
         }
     }
 
     fun refreshPins(pins: List<Pin>){
         yandexMap.map.mapObjects.clear()
-        placemarks.clear()
         showPins(pins)
     }
 }

@@ -81,6 +81,7 @@ class MapActivity : AppCompatActivity(), MapActivityView {
             val newServices: ArrayList<Service>? = data?.getParcelableArrayListExtra(SERVICES)
             if (newServices?.equals(services) != true){
                 services = newServices
+                presenter.onAttach(this)
                 presenter.refreshPoints(services!!)
             }
         }
