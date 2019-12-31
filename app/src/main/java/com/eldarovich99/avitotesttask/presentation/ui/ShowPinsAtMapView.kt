@@ -7,7 +7,6 @@ import com.eldarovich99.avitotesttask.R
 import com.eldarovich99.avitotesttask.domain.entity.Pin
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.CameraPosition
-import com.yandex.mapkit.map.PlacemarkMapObject
 import com.yandex.mapkit.mapview.MapView
 import com.yandex.runtime.image.ImageProvider
 import kotlinx.android.synthetic.main.map_view.view.*
@@ -17,7 +16,6 @@ class ShowPinsAtMapView(context: Context, attrSet : AttributeSet) : MapView(cont
     var imageProviderB : ImageProvider
     var imageProviderC : ImageProvider
     var imageProviderUnknown : ImageProvider
-    var placemarks = mutableListOf<PlacemarkMapObject>()
     companion object{
         const val API_KEY = "23739aa3-5d16-4949-8124-ff1d9c46f7c8"
     }
@@ -35,7 +33,7 @@ class ShowPinsAtMapView(context: Context, attrSet : AttributeSet) : MapView(cont
         imageProviderA = ImageProvider.fromResource(context, R.drawable.placemark_a)
         imageProviderB = ImageProvider.fromResource(context, R.drawable.placemark_b)
         imageProviderC = ImageProvider.fromResource(context, R.drawable.placemark_c)
-        imageProviderUnknown = ImageProvider.fromResource(context, R.drawable.ic_place_black_24dp)
+        imageProviderUnknown = ImageProvider.fromResource(context, R.drawable.placemark_unknown)
     }
 
     fun showPins(pins: List<Pin>){
@@ -48,7 +46,7 @@ class ShowPinsAtMapView(context: Context, attrSet : AttributeSet) : MapView(cont
                 showPoint(pin.toPoint(), pin.service)
             }
             val center = Point(latitude/pins.size, longitude/pins.size)
-            yandexMap.map.move(CameraPosition(center, 11.0f, 0.0f, 0.0f))
+            yandexMap.map.move(CameraPosition(center, 12.0f, 0.0f, 0.0f))
         }
     }
 
