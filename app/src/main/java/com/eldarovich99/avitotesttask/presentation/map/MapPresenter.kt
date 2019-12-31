@@ -1,5 +1,6 @@
 package com.eldarovich99.avitotesttask.presentation.map
 
+import android.content.Intent
 import com.eldarovich99.avitotesttask.data.Result
 import com.eldarovich99.avitotesttask.domain.PinInteractor
 import com.eldarovich99.avitotesttask.domain.entity.Pin
@@ -12,6 +13,8 @@ import javax.inject.Inject
 
 class MapPresenter @Inject constructor(var view: MapActivityView?, private val interactor: PinInteractor) {
     lateinit var pins: List<Pin>
+    private var services : ArrayList<Service>?=null
+
     fun setData(){
         CoroutineScope(Dispatchers.IO).launch {
             val response = interactor.getPins()
@@ -28,12 +31,16 @@ class MapPresenter @Inject constructor(var view: MapActivityView?, private val i
         }
     }
 
+    fun attachServicesToIntent(intent: Intent){
+        intent.putParcelableArrayListExtra(MapActivity.SERVICES, services)
+    }
+
     private fun setServices(serviceNames: List<String>){
-        val services = arrayListOf<Service>()
+        services = arrayListOf()
         for (service in serviceNames){
-            services.add(Service(service, true))
+            services!!.add(Service(service, true))
         }
-        view?.setServices(services)
+        //view?.setServices(services)
     }
 
     fun onAttach(view: MapActivityView){
@@ -44,9 +51,12 @@ class MapPresenter @Inject constructor(var view: MapActivityView?, private val i
         this.view = null
     }
 
-    fun refreshPoints(services: ArrayList<Service>) {
+    fun refreshPoints(newServices: ArrayList<Service>) {
+        if (newServices != services){ // TODO fix comparison
+            services = newServices
+        }
         val filteredPins = mutableListOf<Pin>()
-        for (service in services){
+        for (service in services!!){
             if (service.isSelected)
                 filteredPins.addAll(pins.filter { it.service == service.title })
         }

@@ -17,10 +17,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 import toothpick.ktp.KTP
 import javax.inject.Inject
 
+// TODO fix data resetting after screen rotation
 class MapActivity : AppCompatActivity(), MapActivityView {
     @Inject
     lateinit var presenter : MapPresenter
-    private var services : ArrayList<Service>?=null // must be moved to presenter to survive screen orientation changes
 
     companion object{
         const val FILTER_REQUEST = 1337
@@ -41,14 +41,14 @@ class MapActivity : AppCompatActivity(), MapActivityView {
         presenter.setData()
         filterButton.setOnClickListener {
             val intent = Intent(this, FilterActivity::class.java)
-            intent.putParcelableArrayListExtra(SERVICES, services)
+            presenter.attachServicesToIntent(intent)
             startActivityForResult(intent, FILTER_REQUEST)
         }
     }
 
-    override fun setServices(services: ArrayList<Service>) {
+   /* override fun setServices(services: ArrayList<Service>) {
         this.services = services
-    }
+    }*/
 
     override fun showPins(pins: List<Pin>) {
         mapView.showPins(pins)
@@ -79,11 +79,8 @@ class MapActivity : AppCompatActivity(), MapActivityView {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == FILTER_REQUEST && resultCode == Activity.RESULT_OK) {
             val newServices: ArrayList<Service>? = data?.getParcelableArrayListExtra(SERVICES)
-            if (newServices?.equals(services) != true){
-                services = newServices
-                presenter.onAttach(this)
-                presenter.refreshPoints(services!!)
-            }
+            presenter.onAttach(this)
+            presenter.refreshPoints(newServices!!)
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
