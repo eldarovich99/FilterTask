@@ -8,7 +8,10 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
+        android:background="@color/colorPrimary"
+        app:title="@string/choose_services"
         app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="?attr/homeAsUpIndicator"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"/>
     <androidx.recyclerview.widget.RecyclerView

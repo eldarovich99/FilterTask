@@ -27,15 +27,11 @@ class FilterActivity : AppCompatActivity() {
     }
 
     private fun setToolbar(){
-        /*toolbar?.setNavigationOnClickListener{
+        toolbar?.setNavigationOnClickListener{
             onBackPressed()
-        }*/
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        }
     }
 
-    // TODO avoid overdrawing if dataset has no changes
     override fun onBackPressed() {
         intent.putParcelableArrayListExtra(SERVICES, services)
         setResult(Activity.RESULT_OK, intent)
