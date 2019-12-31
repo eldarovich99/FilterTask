@@ -34,21 +34,18 @@ class MapActivity : AppCompatActivity(), MapActivityView {
         MapKitFactory.initialize(this)
 
         KTP.openScope(ApplicationScope::class.java).openSubScope(MapActivityScope::class.java).installModules(
-            MapActivityModule(this) 
+            MapActivityModule(this)
         ).inject(this)
 
         setContentView(R.layout.activity_main)
-        presenter.setData()
         filterButton.setOnClickListener {
             val intent = Intent(this, FilterActivity::class.java)
             presenter.attachServicesToIntent(intent)
             startActivityForResult(intent, FILTER_REQUEST)
         }
+        presenter.onAttach(this)
+        presenter.setData(savedInstanceState == null)
     }
-
-   /* override fun setServices(services: ArrayList<Service>) {
-        this.services = services
-    }*/
 
     override fun showPins(pins: List<Pin>) {
         mapView.showPins(pins)
@@ -59,17 +56,21 @@ class MapActivity : AppCompatActivity(), MapActivityView {
     }
 
     override fun onStart() {
-        presenter.onAttach(this)
+       // presenter.onAttach(this)
         mapView.onStart()
         MapKitFactory.getInstance().onStart()
         super.onStart()
     }
 
     override fun onStop() {
-        presenter.onDetach()
         mapView.onStop()
         MapKitFactory.getInstance().onStop()
         super.onStop()
+    }
+
+    override fun onDestroy() {
+        presenter.onDetach()
+        super.onDestroy()
     }
 
     override fun refreshPins(pins: List<Pin>) {
@@ -80,7 +81,7 @@ class MapActivity : AppCompatActivity(), MapActivityView {
         if (requestCode == FILTER_REQUEST && resultCode == Activity.RESULT_OK) {
             val newServices: ArrayList<Service>? = data?.getParcelableArrayListExtra(SERVICES)
             presenter.onAttach(this)
-            presenter.refreshPoints(newServices!!)
+            presenter.refreshServicesAndPins(newServices!!)
         }
         super.onActivityResult(requestCode, resultCode, data)
     }

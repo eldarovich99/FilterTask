@@ -16,20 +16,24 @@ class MapPresenter @Inject constructor(var view: MapActivityView?, private val i
     lateinit var pins: List<Pin>
     private var services : ArrayList<Service>?=null
 
-    fun setData(){
-        CoroutineScope(Dispatchers.IO).launch {
-            val response = interactor.getPins()
-            withContext(Dispatchers.Main){
-                if (response is Result.Success){
-                    pins = response.data.pins
-                    view?.showPins(pins)
-                    setServices(response.data.services)
-                }
-                else{
-                    view?.handleErrors()
+    fun setData(isInitialLoading: Boolean){
+        if (isInitialLoading) {
+            CoroutineScope(Dispatchers.IO).launch {
+                val response = interactor.getPins()
+                withContext(Dispatchers.Main) {
+                    if (response is Result.Success) {
+                        pins = response.data.pins
+                        view?.showPins(pins)
+                        setServices(response.data.services)
+                    } else {
+                        view?.handleErrors()
+                    }
                 }
             }
         }
+        else
+            refreshPins()
+
     }
 
     fun attachServicesToIntent(intent: Intent){
@@ -41,7 +45,6 @@ class MapPresenter @Inject constructor(var view: MapActivityView?, private val i
         for (service in serviceNames){
             services!!.add(Service(service, true))
         }
-        //view?.setServices(services)
     }
 
     fun onAttach(view: MapActivityView){
@@ -52,15 +55,19 @@ class MapPresenter @Inject constructor(var view: MapActivityView?, private val i
         this.view = null
     }
 
-    fun refreshPoints(newServices: ArrayList<Service>) {
-        if (!newServices.isEqual(services)){
+    private fun refreshPins() {
+        val filteredPins = mutableListOf<Pin>()
+        for (service in services!!) {
+            if (service.isSelected)
+                filteredPins.addAll(pins.filter { it.service == service.title })
+        }
+        view?.refreshPins(filteredPins)
+    }
+
+    fun refreshServicesAndPins(newServices: ArrayList<Service>) {
+        if (!newServices.isEqual(services)) {
             services = newServices
-            val filteredPins = mutableListOf<Pin>()
-            for (service in services!!){
-                if (service.isSelected)
-                    filteredPins.addAll(pins.filter { it.service == service.title })
-            }
-            view?.refreshPins(filteredPins)
+            refreshPins()
         }
     }
 }
