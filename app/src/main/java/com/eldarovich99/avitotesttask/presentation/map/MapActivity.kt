@@ -17,7 +17,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import toothpick.ktp.KTP
 import javax.inject.Inject
 
-// TODO fix data resetting after screen rotation
 class MapActivity : AppCompatActivity(), MapActivityView {
     @Inject
     lateinit var presenter : MapPresenter
@@ -88,5 +87,3 @@ class MapActivity : AppCompatActivity(), MapActivityView {
         super.onActivityResult(requestCode, resultCode, data)
     }
 }
-// TODO make the filter button unclickable while data is not loaded yet
-// TODO replace different placemarks with one placemark, add clustering and onTapListener (optionally)
