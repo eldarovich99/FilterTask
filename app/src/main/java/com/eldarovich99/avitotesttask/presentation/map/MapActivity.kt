@@ -82,4 +82,11 @@ class MapActivity : AppCompatActivity(), MapActivityView {
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
+
+    override fun onBackPressed() {
+        // Remove potential source of memory leak.
+        // It is prohibited to close scope in onDestroy method, because in this case Presenter will be destroyed.
+        KTP.closeScope(MapActivityScope::class.java)
+        super.onBackPressed()
+    }
 }

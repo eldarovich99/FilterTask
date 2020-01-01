@@ -16,6 +16,10 @@ class MapPresenter @Inject constructor(var view: MapActivityView?, private val i
     lateinit var pins: List<Pin>
     private var services : ArrayList<Service>?=null
 
+    /**
+     * Loads data from network if it is initial loading or sets pins if this method is called after activity recreation
+     * @param isInitialLoading true if network call is neccessary, false if activity was recreated and pins should be just placed on the map
+     */
     fun setData(isInitialLoading: Boolean){
         if (isInitialLoading) {
             CoroutineScope(Dispatchers.IO).launch {
@@ -33,7 +37,6 @@ class MapPresenter @Inject constructor(var view: MapActivityView?, private val i
         }
         else
             refreshPins()
-
     }
 
     fun attachServicesToIntent(intent: Intent){
@@ -55,6 +58,9 @@ class MapPresenter @Inject constructor(var view: MapActivityView?, private val i
         this.view = null
     }
 
+    /**
+     * Refreshes pins according to selected services
+     */
     private fun refreshPins() {
         val filteredPins = mutableListOf<Pin>()
         for (service in services!!) {
@@ -64,6 +70,9 @@ class MapPresenter @Inject constructor(var view: MapActivityView?, private val i
         view?.refreshPins(filteredPins)
     }
 
+    /**
+     * Checks necessity to refresh pins and then refreshes pins according to selected services
+     */
     fun refreshServicesAndPins(newServices: ArrayList<Service>) {
         if (!newServices.isEqual(services)) {
             services = newServices

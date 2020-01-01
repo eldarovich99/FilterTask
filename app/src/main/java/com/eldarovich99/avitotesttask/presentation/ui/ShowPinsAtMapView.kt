@@ -37,6 +37,10 @@ class ShowPinsAtMapView(context: Context, attrSet : AttributeSet) : MapView(cont
         imageProviderUnknown = ImageProvider.fromResource(context, R.drawable.placemark_unknown)
     }
 
+    /**
+     * Displays pins on the map and moves the camera to the center of pins
+     * @param pins are pins that should be displayed
+     */
     fun showPins(pins: List<Pin>){
         if (pins.isNotEmpty()){
             var latitude = 0.0
@@ -51,6 +55,12 @@ class ShowPinsAtMapView(context: Context, attrSet : AttributeSet) : MapView(cont
         }
     }
 
+    /**
+     * Displays single point on the map
+     * Uses placemarks with letters A, B, C for those types or a placemark without letter for other types
+     * @param point is the point that should be displayed
+     * @param type is service type
+     */
     fun showPoint(point: Point, type: String){
         yandexMap.map.mapObjects.let {
             when (type){
@@ -62,6 +72,10 @@ class ShowPinsAtMapView(context: Context, attrSet : AttributeSet) : MapView(cont
         }
     }
 
+    /**
+     * Clears all pins and displays new pins
+     * @param pins are pins that should be displayed
+     */
     fun refreshPins(pins: List<Pin>){
         yandexMap.map.mapObjects.clear()
         showPins(pins)

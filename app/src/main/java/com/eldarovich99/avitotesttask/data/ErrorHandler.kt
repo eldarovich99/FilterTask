@@ -12,6 +12,9 @@ sealed class Result<T>{
     data class Error<T>(val data: ErrorEntity) : Result<T>()
 }
 
+/**
+ * The class represents the class of the HTTP error code/
+ */
 sealed class ErrorEntity {
     abstract val originalException: Throwable?
 
@@ -28,6 +31,9 @@ sealed class ErrorEntity {
     data class InternalError(override val originalException: Throwable?) : ErrorEntity()
 }
 
+/**
+ * The class allows to perform safe network calls with error handling.
+ */
 class ErrorHandlerImpl {
     inline fun <T> executeSafeCall(getData: () -> Response<T>): Result<T> {
         return try {
@@ -43,6 +49,10 @@ class ErrorHandlerImpl {
         }
     }
 
+    /**
+     * @param code HTTP error code
+     * @return ErrorEntity that represents the class of the HTTP error code
+     */
     fun getError(code: Int, throwable: Throwable? = null): ErrorEntity {
         return when (code) {
             HttpURLConnection.HTTP_NOT_FOUND -> ErrorEntity.NotFound(throwable)
@@ -53,6 +63,10 @@ class ErrorHandlerImpl {
         }
     }
 
+    /**
+     * @param throwable is the object that was thrown as a result of network call
+     * @return HTTP error code or network error code
+     */
     fun getError(throwable: Throwable?): ErrorEntity {
         return when(throwable) {
             is IOException -> {
@@ -67,7 +81,6 @@ class ErrorHandlerImpl {
                 Logger.log(this, throwable?.message?:"")
                 ErrorEntity.Unknown(throwable)
             }
-
         }
     }
 }

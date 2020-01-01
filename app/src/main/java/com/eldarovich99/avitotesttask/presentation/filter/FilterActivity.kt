@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.activity_filter.*
 import java.util.*
 
 class FilterActivity : AppCompatActivity() {
-    var services: ArrayList<Service>? = null
+    private var services: ArrayList<Service>? = null
 
     companion object{
         const val SERVICES = "services"
