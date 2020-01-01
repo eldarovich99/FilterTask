@@ -25,8 +25,6 @@ class ServicesRecyclerViewAdapter(var items: ArrayList<Service>) : RecyclerView.
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ServicesViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.service_item, parent, false)
         val holder = ServicesViewHolder(view)
-       // holder.serviceCheckBox.setOnCheckedChangeListener { buttonView, isChecked ->
-       //     items[holder.adapterPosition].isSelected = isChecked}
         holder.itemView.setOnClickListener {
             holder.serviceCheckBox.isChecked = !holder.serviceCheckBox.isChecked
             items[holder.adapterPosition].isSelected = holder.serviceCheckBox.isChecked

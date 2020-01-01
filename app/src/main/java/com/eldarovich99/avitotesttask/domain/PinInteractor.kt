@@ -5,7 +5,6 @@ import com.eldarovich99.avitotesttask.domain.entity.PinsResponse
 import javax.inject.Inject
 
 class PinInteractor @Inject constructor(val repository: Repository) {
-    //val repository: Repository by lazy { RepositoryImpl() }
 
     suspend fun getPins(): Result<PinsResponse>{
         return repository.getPins()

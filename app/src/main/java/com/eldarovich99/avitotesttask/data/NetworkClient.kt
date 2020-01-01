@@ -17,7 +17,6 @@ class NetworkClient {
         private val mainManagerRetroClient: Retrofit
             get() {
 
-                //cookie.setCookie(null)
                 val logging = HttpLoggingInterceptor()
                 logging.apply { logging.level = HttpLoggingInterceptor.Level.BODY }
 
@@ -26,7 +25,6 @@ class NetworkClient {
                     .readTimeout(100, TimeUnit.SECONDS)
                     .writeTimeout(100, TimeUnit.SECONDS)
                     .addInterceptor(logging)
-                    //.cookieJar(cookie)
                     .build()
 
                 if (builderMainManagerRetro == null) {

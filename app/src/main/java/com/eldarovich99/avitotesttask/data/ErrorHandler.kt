@@ -45,21 +45,10 @@ class ErrorHandlerImpl {
 
     fun getError(code: Int, throwable: Throwable? = null): ErrorEntity {
         return when (code) {
-// no cache found in case of no network, thrown by retrofit -> treated as network error
-//DataConstants.Network.HttpStatusCode.UNSATISFIABLE_REQUEST -> ErrorEntity.Network(throwable)
-
-// not found
             HttpURLConnection.HTTP_NOT_FOUND -> ErrorEntity.NotFound(throwable)
-
-// access denied
             HttpURLConnection.HTTP_FORBIDDEN -> ErrorEntity.AccessDenied(throwable)
-
-// unavailable service
             HttpURLConnection.HTTP_UNAVAILABLE -> ErrorEntity.ServiceUnavailable(throwable)
-
-// server error
             HttpURLConnection.HTTP_INTERNAL_ERROR -> ErrorEntity.InternalError(throwable)
-// all the others will be treated as unknown error
             else -> ErrorEntity.Unknown(throwable)
         }
     }
