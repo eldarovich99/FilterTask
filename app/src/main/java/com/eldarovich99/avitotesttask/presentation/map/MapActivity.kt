@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.eldarovich99.avitotesttask.R
+import com.eldarovich99.avitotesttask.data.ErrorEntity
 import com.eldarovich99.avitotesttask.di.modules.MapActivityModule
 import com.eldarovich99.avitotesttask.di.scopes.ApplicationScope
 import com.eldarovich99.avitotesttask.di.scopes.MapActivityScope
@@ -12,6 +13,7 @@ import com.eldarovich99.avitotesttask.domain.entity.Pin
 import com.eldarovich99.avitotesttask.domain.entity.Service
 import com.eldarovich99.avitotesttask.presentation.filter.FilterActivity
 import com.eldarovich99.avitotesttask.presentation.ui.ShowPinsAtMapView
+import com.google.android.material.snackbar.Snackbar
 import com.yandex.mapkit.MapKitFactory
 import kotlinx.android.synthetic.main.activity_main.*
 import toothpick.ktp.KTP
@@ -44,7 +46,6 @@ class MapActivity : AppCompatActivity(), MapActivityView {
         }
         presenter.onAttach(this)
         filterButton.isEnabled = savedInstanceState != null
-        //mapView.map.move(CameraPosition(Point(55.751694, 37.617218), 12f, 0.0f, 0.0f))
         presenter.setData(savedInstanceState == null)
     }
 
@@ -53,8 +54,15 @@ class MapActivity : AppCompatActivity(), MapActivityView {
         mapView.showPins(pins)
     }
 
-    override fun handleErrors() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun handleErrors(errorEntity: ErrorEntity) {
+        when (errorEntity){
+            is ErrorEntity.AccessDenied -> Snackbar.make(mapView, "Произошла ошибка доступа. Пожалуйста, свяжитесь с разработчиком.", Snackbar.LENGTH_SHORT)
+            is ErrorEntity.InternalError -> Snackbar.make(mapView, "Произошла внутренняя ошибка сервера. Попробуйте позже.", Snackbar.LENGTH_SHORT)
+            is ErrorEntity.Network -> Snackbar.make(mapView, "Проверьте подключение к сети.", Snackbar.LENGTH_SHORT)
+            is ErrorEntity.NotFound -> Snackbar.make(mapView, "Запрашиваемые данные не найдены. Пожалуйста, свяжитесь с разработчиком.", Snackbar.LENGTH_SHORT)
+            is ErrorEntity.ServiceUnavailable -> Snackbar.make(mapView, "Сервис временно недоступен. Попробуйте позже.", Snackbar.LENGTH_SHORT)
+            is ErrorEntity.Unknown -> Snackbar.make(mapView, "Произошла неизвестная ошибка. Попробуйте позже.", Snackbar.LENGTH_SHORT)
+        }
     }
 
     override fun onDestroy() {

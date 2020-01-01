@@ -26,7 +26,7 @@ class MapPresenter @Inject constructor(var view: MapActivityView?, private val i
                         view?.showPins(pins)
                         setServices(response.data.services)
                     } else {
-                        view?.handleErrors()
+                        view?.handleErrors((response as Result.Error).data)
                     }
                 }
             }
