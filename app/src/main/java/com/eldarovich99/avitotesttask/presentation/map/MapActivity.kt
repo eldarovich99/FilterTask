@@ -44,6 +44,7 @@ class MapActivity : AppCompatActivity(), MapActivityView {
         }
         presenter.onAttach(this)
         filterButton.isEnabled = savedInstanceState != null
+        //mapView.map.move(CameraPosition(Point(55.751694, 37.617218), 12f, 0.0f, 0.0f))
         presenter.setData(savedInstanceState == null)
     }
 
@@ -54,19 +55,6 @@ class MapActivity : AppCompatActivity(), MapActivityView {
 
     override fun handleErrors() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onStart() {
-       // presenter.onAttach(this)
-        mapView.onStart()
-        MapKitFactory.getInstance().onStart()
-        super.onStart()
-    }
-
-    override fun onStop() {
-        mapView.onStop()
-        MapKitFactory.getInstance().onStop()
-        super.onStop()
     }
 
     override fun onDestroy() {

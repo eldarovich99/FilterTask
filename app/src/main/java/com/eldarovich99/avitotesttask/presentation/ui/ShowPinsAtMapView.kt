@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import com.eldarovich99.avitotesttask.R
 import com.eldarovich99.avitotesttask.domain.entity.Pin
+import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.CameraPosition
 import com.yandex.mapkit.mapview.MapView
@@ -64,5 +65,17 @@ class ShowPinsAtMapView(context: Context, attrSet : AttributeSet) : MapView(cont
     fun refreshPins(pins: List<Pin>){
         yandexMap.map.mapObjects.clear()
         showPins(pins)
+    }
+
+    override fun onAttachedToWindow() {
+        yandexMap.onStart()
+        MapKitFactory.getInstance().onStart()
+        super.onAttachedToWindow()
+    }
+
+    override fun onDetachedFromWindow() {
+        yandexMap.onStop()
+        MapKitFactory.getInstance().onStop()
+        super.onDetachedFromWindow()
     }
 }
