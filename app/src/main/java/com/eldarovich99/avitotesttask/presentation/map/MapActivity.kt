@@ -56,12 +56,12 @@ class MapActivity : AppCompatActivity(), MapActivityView {
 
     override fun handleErrors(errorEntity: ErrorEntity) {
         when (errorEntity){
-            is ErrorEntity.AccessDenied -> Snackbar.make(mapView, "Произошла ошибка доступа. Пожалуйста, свяжитесь с разработчиком.", Snackbar.LENGTH_SHORT)
-            is ErrorEntity.InternalError -> Snackbar.make(mapView, "Произошла внутренняя ошибка сервера. Попробуйте позже.", Snackbar.LENGTH_SHORT)
-            is ErrorEntity.Network -> Snackbar.make(mapView, "Проверьте подключение к сети.", Snackbar.LENGTH_SHORT)
-            is ErrorEntity.NotFound -> Snackbar.make(mapView, "Запрашиваемые данные не найдены. Пожалуйста, свяжитесь с разработчиком.", Snackbar.LENGTH_SHORT)
-            is ErrorEntity.ServiceUnavailable -> Snackbar.make(mapView, "Сервис временно недоступен. Попробуйте позже.", Snackbar.LENGTH_SHORT)
-            is ErrorEntity.Unknown -> Snackbar.make(mapView, "Произошла неизвестная ошибка. Попробуйте позже.", Snackbar.LENGTH_SHORT)
+            is ErrorEntity.AccessDenied -> Snackbar.make(mapView, getString(R.string.access_denied_message), Snackbar.LENGTH_SHORT).show()
+            is ErrorEntity.InternalError -> Snackbar.make(mapView, getString(R.string.internal_error_message), Snackbar.LENGTH_SHORT).show()
+            is ErrorEntity.Network -> Snackbar.make(mapView, getString(R.string.network_error_message), Snackbar.LENGTH_SHORT).show()
+            is ErrorEntity.NotFound -> Snackbar.make(mapView, getString(R.string.not_found_message), Snackbar.LENGTH_SHORT).show()
+            is ErrorEntity.ServiceUnavailable -> Snackbar.make(mapView, getString(R.string.service_unavailable), Snackbar.LENGTH_SHORT).show()
+            is ErrorEntity.Unknown -> Snackbar.make(mapView, getString(R.string.unknown_error_message), Snackbar.LENGTH_SHORT).show()
         }
     }
 
