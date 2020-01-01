@@ -10,7 +10,7 @@ class NetworkClient {
     companion object{
 
         private var builderMainManagerRetro: Retrofit.Builder? = null
-        private const val BASE_URL = "https://raw.githubusercontent.com/avito-tech/android-trainee-task/master/"
+        private const val BASE_URL = "https://raw.githubusercontent.com/eldarovich99/Pins/master/"
         fun <T> getApi(api: Class<T>): T {
             return mainManagerRetroClient.create(api)
         }
