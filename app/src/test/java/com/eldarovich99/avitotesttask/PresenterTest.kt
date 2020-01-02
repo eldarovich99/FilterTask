@@ -33,7 +33,7 @@ class PresenterTest {
         Dispatchers.resetMain() // reset main dispatcher to the original Main dispatcher
     }
     @Test
-    fun wasDataSuccessfullyRetrieved() {
+    fun setAndRefreshPinsTest() {
         runBlocking {
             var step = 0
             val view = object: MapActivityView{

@@ -1,11 +1,11 @@
 package com.eldarovich99.avitotesttask.presentation.map
 
 import android.content.Intent
+import com.eldarovich99.avitotesttask.areEqual
 import com.eldarovich99.avitotesttask.data.Result
 import com.eldarovich99.avitotesttask.domain.PinInteractor
 import com.eldarovich99.avitotesttask.domain.entity.Pin
 import com.eldarovich99.avitotesttask.domain.entity.Service
-import com.eldarovich99.avitotesttask.isEqual
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -71,7 +71,7 @@ class MapPresenter @Inject constructor(var view: MapActivityView?, private val i
      * Checks necessity to refresh pins and then refreshes pins according to selected services
      */
     fun refreshServicesAndPins(newServices: ArrayList<Service>) {
-        if (!newServices.isEqual(services)) {
+        if (!newServices.areEqual(services)) {
             services = newServices
             refreshPins()
         }
