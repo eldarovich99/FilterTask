@@ -1,17 +1,16 @@
 package com.eldarovich99.avitotesttask
 
+import com.eldarovich99.avitotesttask.data.RepositoryImpl
 import com.eldarovich99.avitotesttask.data.Result
 import com.eldarovich99.avitotesttask.domain.PinInteractor
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
 class RepositoryTest {
-    val interactor by lazy { PinInteractor() }
+    val interactor = PinInteractor(RepositoryImpl())
     @Test
     fun wasDataSuccessfullyRetrieved() {
-        CoroutineScope(Dispatchers.IO).launch {
+        runBlocking {
             val response = interactor.getPins()
             assert(response is Result.Success &&
                     response.data.pins.isNotEmpty()

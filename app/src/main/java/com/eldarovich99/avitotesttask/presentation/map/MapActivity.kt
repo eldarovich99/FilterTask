@@ -16,6 +16,9 @@ import com.eldarovich99.avitotesttask.presentation.ui.ShowPinsAtMapView
 import com.google.android.material.snackbar.Snackbar
 import com.yandex.mapkit.MapKitFactory
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import toothpick.ktp.KTP
 import javax.inject.Inject
 
@@ -46,7 +49,9 @@ class MapActivity : AppCompatActivity(), MapActivityView {
         }
         presenter.onAttach(this)
         filterButton.isEnabled = savedInstanceState != null
-        presenter.setData(savedInstanceState == null)
+        CoroutineScope(Dispatchers.IO).launch {
+            presenter.setData(savedInstanceState == null)
+        }
     }
 
     override fun showPins(pins: List<Pin>) {
